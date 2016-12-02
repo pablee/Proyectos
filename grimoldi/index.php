@@ -15,16 +15,27 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 		<style>
-		  .jumbotron {
-			  background-color: #f4511e;
-			  color: #fff;
-		  }
+			.jumbotron {
+				background-color: #f4511e;
+				color: #fff;
+			}
+			.col-center{
+				float: none;
+				margin: 0 auto;
+			}
+			.centrado-porcentual {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				-webkit-transform: translate(-50%, -50%);
+			}
 		</style>
 	</head>
 
 	<body class="jumbotron">
 		
-		<div class="container">
+		<div class="container centrado-porcentual">
 			<div class="row">
 				<div class="col-sm-4 col-md-offset-4">
 					<form>
@@ -37,7 +48,12 @@
 							<br>
 						</div>
 						<div style="float: right">
-							<input type = "submit" 	class="btn btn-success" value = "Aceptar"></input>
+								<!--
+								<input type = "submit" class = "btn btn-success" value = "Aceptar"></input>
+								-->
+								<a href="home.php">
+									<input type = "button" class = "btn btn-success" value = "Aceptar">
+								</a>
 						</div>
 					</form>
 				</div>
