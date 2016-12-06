@@ -11,25 +11,7 @@
   
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script>
-			function modificar()
-								{
-								var nombre = document.getElementById("nombre");
-								var linea = document.getElementById("linea");	
-								
-								xhttp = new XMLHttpRequest();
-								xhttp.onreadystatechange = function()	
-										{
-										if (this.readyState == 4 && this.status == 200)
-												{
-												document.getElementById("contenido").innerHTML = this.responseText;
-												}
-										};
-					
-								xhttp.open("GET", "modificarCel.php?nombre="+nombre+"&linea="+linea, "true");
-								xhttp.send();
-								}
-	</script>							
+
 	<?php
 		date_default_timezone_set('America/Argentina/Buenos_Aires');
 		setlocale (LC_TIME,"spanish");
@@ -125,8 +107,10 @@
 				</div>
 				
 				<!--Contenido-->
-		<div class="col-sm-8 text-left" id = "contenido"> 
+				<div class="col-sm-8 text-left"> 
+					<?php
 					
+					?>
 					<div class="col-sm-6 text-left">
 						<form method = "GET" action = "agregarCel.php">
 							<table class="table table-condensed">
@@ -211,7 +195,7 @@
 					</div>
 
 					<div class="col-sm-6 text-left">
-						
+						<form method = "POST" action = "borrarCel.php">
 							<table class="table table-condensed">
 								<thead>
 									<tr>
@@ -232,10 +216,10 @@
 
 								<tr>
 									<td></td>
-									<td><button type = "button" class="btn btn-info" onclick="modificar()">Buscar</button></td>
+									<td><input class="btn btn-info" type = "submit" value = "Buscar"></input></td>
 								</tr>									
 							</tbody>
-						
+						</form>
 					</div>					
 					
 					<div class="col-sm-6 text-left">
