@@ -1,3 +1,11 @@
+<?php
+		session_start();
+		date_default_timezone_set('America/Argentina/Buenos_Aires');
+		setlocale (LC_TIME,"spanish");
+		$fecha = date("Y-m-d H:i:s");
+		$fecha2 = strftime("%A %e de %B");	
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,35 +15,11 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!--La hoja personalizada de estilos tiene que ir despues de la de bootstrap-->
-	<link rel="stylesheet" href="estilos.css">
+	<link rel="stylesheet" href="css/estilos.css">
   
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script>
-			function modificar()
-								{
-								var nombre = document.getElementById("nombre");
-								var linea = document.getElementById("linea");	
-								
-								xhttp = new XMLHttpRequest();
-								xhttp.onreadystatechange = function()	
-										{
-										if (this.readyState == 4 && this.status == 200)
-												{
-												document.getElementById("contenido").innerHTML = this.responseText;
-												}
-										};
-					
-								xhttp.open("GET", "modificarCel.php?nombre="+nombre+"&linea="+linea, "true");
-								xhttp.send();
-								}
-	</script>							
-	<?php
-		date_default_timezone_set('America/Argentina/Buenos_Aires');
-		setlocale (LC_TIME,"spanish");
-		$fecha = date("Y-m-d H:i:s");
-		$fecha2 = strftime("%A %e de %B");	
-	?>
+	<script type="text/javascript" src="script/funciones.js"></script>
 
 </head>
 
@@ -100,6 +84,33 @@
 								</ul>
 							</li>
 							
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									Stock
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a onclick="stockDisponible()">Disponible</a></li>
+									<li><a onclick="stockAsignado()">Asignado</a></li>
+									<li><a onclick="stockCompleto()">Completo</a></li>
+									<li><a onclick="ingresarStock()">Ingreso</a></li>
+									<li><a onclick="modificarStock()">Modificar</a></li>
+									
+								</ul>
+							
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									Celulares
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a onclick="verLineas()">Ver lineas</a></li>
+									<li><a onclick="nuevaLinea()">Nueva linea</a></li>
+									<li><a onclick="modificarLinea()">Modificar linea</a></li>
+									<li><a onclick="borrarLinea()">Borrar linea</a></li>
+								</ul>
+							</li>
+							
 							<li><a href="#">Proyectos</a></li>
 							<li><a href="#">Contacto</a></li>
 						</ul>
@@ -113,164 +124,20 @@
 		<!--Menu, contenido y ADS-->
 		<div class="row text-center">
 				
-				<div class="col-sm-2 sidenav" style="border: 10px solid #fff">
+				<div class="col-sm-1 sidenav" style="border: 10px solid #fff"><!--
 					<p><input type = "submit" class="btn btn-default btn-block" value = "Pcs Grimoldi"></input></p>
 					<p><input type = "submit" class="btn btn-default btn-block" value = "Equipos e insumos"></input></p>
-					<p><input type = "submit" class="btn btn-default btn-block" value = "Telefonia"></input></p>
+					<p><input type = "submit" class="btn btn-default btn-block" value = "Celulares"></input></p>
 					<p><input type = "submit" class="btn btn-default btn-block" value = "Gastos"></input></p>
 					<p><input type = "submit" class="btn btn-default btn-block" value = "Internos"></input></p>
 					<p><input type = "submit" class="btn btn-info btn-block" value = "Pcs Grimoldi"></input></p>
 					<p><input type = "submit" class="btn btn-info btn-block" value = "Equipos e insumos"></input></p>
-					<p><input type = "submit" class="btn btn-info btn-block" value = "Reportes"></input></p>
+					<p><input type = "submit" class="btn btn-info btn-block" value = "Reportes"></input></p>-->
 				</div>
 				
-				<!--Contenido-->
+		<!--Contenido-->
 		<div class="col-sm-8 text-left" id = "contenido"> 
-					
-					<div class="col-sm-6 text-left">
-						<form method = "GET" action = "agregarCel.php">
-							<table class="table table-condensed">
-								<thead>
-									<tr>
-										<td><h3>Datos de la nueva linea</h3></td>
-									</tr>	
-								</thead>
-									
-							<tbody>
-								<tr>
-									<td><label for="nombre">Nombre y apellido</label></td>
-									<td><input type = "text" name = "nombre" id = "nombre"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="linea">Numero de linea</label></td>
-									<td><input type = "text" name = "linea" id = "linea"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="sector">Centro de costo</label></td>
-									<td><input type = "text" name = "sector" id = "sector"></input></td>
-								</tr>
-								
-								<tr>	
-									<td><label for="modelo">Modelo de celular</label></td>
-									<td><input type = "text" name = "modelo" id = "modelo"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="propietario">Propietario del equipo</label></td>
-									<td><input type = "text" name = "propietario" id = "propietario"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="mail">Mail</label></td>
-									<td><input type = "text" name = "mail" id = "mail"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="clave">Clave de correo</label></td>
-									<td><input type = "text" name = "clave" id = "clave"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="plan">Plan telefonico</label></td>
-									<td><input type = "text" name = "plan" id = "plan"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="servicio_adicional">Servicios adicionales</label></td>
-									<td><input type = "text" name = "servicio_adicional" id = "servicio_adicional"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="datos">Plan de datos</label></td>
-									<td><input type = "text" name = "datos" id = "datos"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="minutos_libres">Minutos libres</label></td>
-									<td><input type = "text" name = "minutos_libres" id = "minutos_libres"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="detalles">Detalles del equipo</label></td>
-									<td><input type = "text" name = "detalles" id = "detalles"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="observaciones">Observaciones</label></td>
-									<td><input type = "text" name = "observaciones" id = "observaciones"></input></td>
-								</tr>
-								
-								<tr>
-									<td></td>
-									<td><input class="btn btn-info" type = "submit" value = "Agregar"></input></td>
-								</tr>									
-							</tbody>
-						</form>
-					</div>
-
-					<div class="col-sm-6 text-left">
-						
-							<table class="table table-condensed">
-								<thead>
-									<tr>
-										<td><h3>Modificar registro</h3></td>
-									</tr>	
-								</thead>
-									
-							<tbody>
-								<tr>
-									<td><label for="nombre">Nombre y apellido</label></td>
-									<td><input type = "text" name = "nombre" id = "nombre"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="linea">Numero de linea</label></td>
-									<td><input type = "text" name = "linea" id = "linea"></input></td>
-								</tr>
-
-								<tr>
-									<td></td>
-									<td><button type = "button" class="btn btn-info" onclick="modificar()">Buscar</button></td>
-								</tr>									
-							</tbody>
-						
-					</div>					
-					
-					<div class="col-sm-6 text-left">
-						<form method = "POST" action = "borrarCel.php">
-							<table class="table table-condensed">
-								<thead>
-									<tr>
-										<td><h3>Eliminar registro</h3></td>
-									</tr>	
-								</thead>
-									
-							<tbody>
-								<tr>
-									<td><label for="nombre">Nombre y apellido</label></td>
-									<td><input type = "text" name = "nombre" id = "nombre"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="linea">Numero de linea</label></td>
-									<td><input type = "text" name = "linea" id = "linea"></input></td>
-								</tr>
-								
-								<tr>
-									<td><label for="mail">Mail</label></td>
-									<td><input type = "text" name = "mail" id = "mail"></input></td>
-								</tr>
-
-								<tr>
-									<td></td>
-									<td><input class="btn btn-info" type = "submit" value = "Borrar"></input></td>
-								</tr>									
-							</tbody>
-						</form>
-					</div>
-
+			
 		</div>		
 	</div>
 	
