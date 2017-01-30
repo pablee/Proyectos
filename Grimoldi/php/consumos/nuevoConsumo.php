@@ -60,7 +60,7 @@
 										<ul class="dropdown-menu">
 										  <li><a tabindex="-1" href="nuevoConsumo.php"> Nuevo </a></li>
 										  <li><a tabindex="-1" onclick="verConsumos()"> Ver </a></li>
-										  <li><a tabindex="-1" onclick="formBorrar()"> Borrar </a></li>
+										  <li><a tabindex="-1" onclick="formBorrar('0')"> Borrar </a></li>
 										</ul>
 									</li>
 									<li><a href="#">Celulares</a></li>
