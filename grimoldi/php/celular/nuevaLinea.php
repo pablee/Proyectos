@@ -81,6 +81,9 @@ echo '
 									<td><input class="btn btn-info" onclick="mensaje(this.value)" type = "submit" value = "Agregar"></input></td>
 								</tr>									
 							</tbody>
+						</table>
 	</form>
 </div>
 ';
+
+?>

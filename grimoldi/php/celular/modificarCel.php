@@ -11,7 +11,7 @@ $linea = $_GET["linea"];
 $db = new database();
 $db->conectar();
 				
-$consulta = "SELECT * FROM celulares WHERE nombre = '$nombre' OR linea = '$linea';"; 
+$consulta = "SELECT * FROM celulares WHERE nombre LIKE '%$nombre%' OR linea LIKE '%$linea%';"; 
 $query = mysqli_query($db->conexion, $consulta)	or die ("Fallo la consulta, no se pudo modificar el registro");
 $ver = mysqli_fetch_assoc($query);
 $_session["ver"] = $ver;

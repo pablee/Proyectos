@@ -2,7 +2,7 @@
 		session_start();
 		date_default_timezone_set('America/Argentina/Buenos_Aires');
 		setlocale (LC_TIME,"spanish");
-		$fecha = date("Y-m-d H:i:s");
+		$fecha = date("d-m-Y H:i:s");
 		$fecha2 = strftime("%A %e de %B");	
 ?>
 
@@ -16,10 +16,15 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!--La hoja personalizada de estilos tiene que ir despues de la de bootstrap-->
 	<link rel="stylesheet" href="css/estilos.css">
-  
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="jquery/jquery-ui.css">
+	
+	<script type="text/javascript" src="jquery/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="jquery/jquery-ui.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="script/funciones.js"></script>
+	<script type="text/javascript" src="script/calendario.js"></script>
+	<script type="text/javascript" src="script/pagina.js"></script>
 
 </head>
 
@@ -58,29 +63,35 @@
 							<li>
 								<a href="home.php">Home</a>
 							</li>
-							
+														
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-									Usuarios
+									Consumos
 									<span class="caret"></span>
 								</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Home</a></li>
-									<li><a href="#">Usuarios</a></li>
-									<li><a href="#">Proyectos</a></li>
-									<li><a href="#">Contacto</a></li>
+								<ul class="dropdown-menu">									
+									<li class="dropdown-submenu">
+										<a class="test" tabindex="-1" href="#"> Gastos <span class="caret"></span></a>
+										<ul class="dropdown-menu">
+										  <li><a tabindex="-1" href="php/consumos/nuevoConsumo.php"> Nuevo </a></li>
+										  <li><a tabindex="-1" onclick="verConsumos('1')"> Ver </a></li>
+										  <li><a tabindex="-1" onclick="formBorrar('1')"> Borrar </a></li>
+										</ul>
+									</li>
+									<li><a href="#">Celulares</a></li>
+									<li><a href="#">Lineas</a></li>
 								</ul>
 							</li>
 							
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-									Administrar
+									Documentacion
 									<span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">
-								  <li><a href="#">Page 1-1</a></li>
-								  <li><a href="#">Page 1-2</a></li>
-								  <li><a href="#">Page 1-3</a></li>
+									<li><a href="php/usuario/altaUsuario.php">Usuarios</a></li>
+									<li><a onclick="constancia('notebook')">Notebook</a></li>
+									<li><a onclick="constancia('celular')">Celular</a></li>
 								</ul>
 							</li>
 							
@@ -90,12 +101,11 @@
 									<span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">
-									<li><a onclick="stockDisponible()">Disponible</a></li>
-									<li><a onclick="stockAsignado()">Asignado</a></li>
-									<li><a onclick="stockCompleto()">Completo</a></li>
-									<li><a onclick="ingresarStock()">Ingreso</a></li>
-									<li><a onclick="modificarStock()">Modificar</a></li>
-									
+									<li><a onclick="verStock('Disponible')">Disponible</a></li>
+									<li><a onclick="verStock('Asignado')">Asignado</a></li>
+									<li><a onclick="verStock('Completo')">Completo</a></li>
+									<li><a onclick="nuevoIngreso()">Ingreso</a></li>
+									<li><a onclick="verStock('Disponible')">Egreso</a></li>
 								</ul>
 							
 							<li class="dropdown">
@@ -123,36 +133,31 @@
 		
 		<!--Menu, contenido y ADS-->
 		<div class="row text-center">
-				
-				<div class="col-sm-1 sidenav" style="border: 10px solid #fff"><!--
-					<p><input type = "submit" class="btn btn-default btn-block" value = "Pcs Grimoldi"></input></p>
-					<p><input type = "submit" class="btn btn-default btn-block" value = "Equipos e insumos"></input></p>
-					<p><input type = "submit" class="btn btn-default btn-block" value = "Celulares"></input></p>
-					<p><input type = "submit" class="btn btn-default btn-block" value = "Gastos"></input></p>
-					<p><input type = "submit" class="btn btn-default btn-block" value = "Internos"></input></p>
-					<p><input type = "submit" class="btn btn-info btn-block" value = "Pcs Grimoldi"></input></p>
-					<p><input type = "submit" class="btn btn-info btn-block" value = "Equipos e insumos"></input></p>
-					<p><input type = "submit" class="btn btn-info btn-block" value = "Reportes"></input></p>-->
-				</div>
-				
-		<!--Contenido-->
-		<div class="col-sm-8 text-left" id = "contenido"> 
-			
-		</div>		
-	</div>
-	
-		<!--Pie de Pagina-->
-		<div class="container text-center">    
-			<div class="row">
-				<div class="col-sm-12"> 
-					<footer class="container text-center">
-						<p>Intranet 2.0</p>
-					</footer>
-				</div>
+					
+			<div class="col-sm-0">
+						<!--
+						<p><input type = "submit" class="btn btn-default btn-block" value = "Pcs Grimoldi"></input></p>
+						<p><input type = "submit" class="btn btn-default btn-block" value = "Equipos e insumos"></input></p>
+						<p><input type = "submit" class="btn btn-default btn-block" value = "Celulares"></input></p>
+						<p><input type = "submit" class="btn btn-default btn-block" value = "Gastos"></input></p>
+						<p><input type = "submit" class="btn btn-default btn-block" value = "Internos"></input></p>
+						<p><input type = "submit" class="btn btn-info btn-block" value = "Pcs Grimoldi"></input></p>
+						<p><input type = "submit" class="btn btn-info btn-block" value = "Equipos e insumos"></input></p>
+						<p><input type = "submit" class="btn btn-info btn-block" value = "Reportes"></input></p>
+						-->
 			</div>
+					
+			<!--Contenido-->
+			<div class="col-sm-12 text-left" id = "contenido"> 
+			
+			</div>
+			
+			<div class="col-sm-0"> 
+				
+			</div>
+			
 		</div>
-	
-		
 
 </body>
 </html>
+

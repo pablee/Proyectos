@@ -1,23 +1,9 @@
 <?php
 
-$campo = $_GET["campo"];
-//$nCampo = $_GET["nCampo"];
+$valorCampo = $_GET["valorCampo"];
+$idCampo = $_GET["idCampo"];
 
 echo "<br>";
-echo '<input type="text" id="nuevoTexto" placeholder="'.$campo.'"></input>';
-/*
-if($nCampo == "estado")
-	{
-	echo '	<select>
-				<option value="disponible">Disponible</option>
-				<option value="asignado">Asignado</option>
-			</select> 
-		';
-	}
-	else
-		{
-		echo '<input type="text" id="nuevoTexto" placeholder="'.$campo.'"></input>';
-		}
-*/
-//echo '<input type="button" value="Guardar" onclick="guardar()"></input>';
+echo '<input type="text" id="'.$idCampo.'"></input>';
+echo '<button type="button" class="btn btn-link btn-xs" onclick="aceptar(this.value)" value ='.$idCampo.'>Aceptar</button>';
 ?>
