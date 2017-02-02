@@ -7,3 +7,14 @@ $(document).ready(function(){
 		e.preventDefault();
 	  });
 	});
+
+//imprime contenido de la pagina	
+function imprimir()
+			{
+			var objeto=document.getElementById("contenido");
+			var ventana=window.open('','_blank');
+			ventana.document.write(objeto.innerHTML);
+			ventana.document.close();
+			ventana.print();
+			ventana.close();
+			}

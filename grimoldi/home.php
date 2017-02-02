@@ -23,9 +23,12 @@
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="script/funciones.js"></script>
+	<script type="text/javascript" src="script/documentacion.js"></script>
+	<script type="text/javascript" src="script/consumos.js"></script>
+	<script type="text/javascript" src="script/celular.js"></script>
 	<script type="text/javascript" src="script/calendario.js"></script>
 	<script type="text/javascript" src="script/pagina.js"></script>
-
+	
 </head>
 
 <body> 
@@ -63,7 +66,19 @@
 							<li>
 								<a href="home.php">Home</a>
 							</li>
-														
+							
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									Administracion
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li><a href="php/usuario/altaUsuario.php"> Computadoras </a></li>
+									<li><a onclick=""></a>  </li>
+									<li><a onclick=""></a>  </li>
+								</ul>
+							</li>
+							
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 									Consumos
@@ -73,12 +88,12 @@
 									<li class="dropdown-submenu">
 										<a class="test" tabindex="-1" href="#"> Gastos <span class="caret"></span></a>
 										<ul class="dropdown-menu">
-										  <li><a tabindex="-1" href="php/consumos/nuevoConsumo.php"> Nuevo </a></li>
+										  <li><a tabindex="-1" href="php/consumos/gastos/nuevoConsumo.php"> Nuevo </a></li>
 										  <li><a tabindex="-1" onclick="verConsumos('1')"> Ver </a></li>
 										  <li><a tabindex="-1" onclick="formBorrar('1')"> Borrar </a></li>
 										</ul>
 									</li>
-									<li><a href="#">Celulares</a></li>
+									<li><a onclick="consumosCel('1')"> Celulares </a></li>
 									<li><a href="#">Lineas</a></li>
 								</ul>
 							</li>
@@ -149,7 +164,7 @@
 					
 			<!--Contenido-->
 			<div class="col-sm-12 text-left" id = "contenido"> 
-			
+
 			</div>
 			
 			<div class="col-sm-0"> 
