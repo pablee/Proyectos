@@ -23,7 +23,7 @@ $db->conectar();
 				or die ("Fallo la consulta, no se pueden mostrar el stock");
 																	 			
 				echo '
-				<div class="col-sm-10 text-left" id = "contenido"> 
+				<div class="col-sm-12 text-left" style="overflow-x:auto; height:650px;" id = "contenido"> 
 				<table class="table table-default">
 				<thead>
 					<tr>
@@ -161,7 +161,7 @@ $db->conectar();
 								</td>
 								
 								<td>
-									<p id='guardar'>
+									<p id='".$ver['id']."guardar'>
 										<button type='button' class='btn btn-link btn-xs' onclick='guardar(this.value)' value ='".$ver['id']."'> GUARDAR </button>
 									</p>
 								</td>		

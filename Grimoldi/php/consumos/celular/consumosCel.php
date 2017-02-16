@@ -49,6 +49,7 @@ while($ver = mysqli_fetch_assoc($resultado))
 	{
 	$_SESSION['usuarios']+=$ver['total_fijos_variables'];
 	}
+
 	
 $resultado = mysqli_query($db->conexion, $consulta)
 or die ("Fallo la consulta, no se pueden mostrar los consumos");

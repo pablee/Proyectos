@@ -127,7 +127,7 @@
 									{
 									if (this.readyState == 4 && this.status == 200) 
 										{
-										document.getElementById("guardar").innerHTML = this.responseText;
+										document.getElementById(id+"guardar").innerHTML = this.responseText;
 										}
 									};
 								

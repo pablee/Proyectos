@@ -6,6 +6,7 @@ $filtro = $_GET["filtro"];
 $mes = $_GET["mes"];
 $anio = $_GET["anio"];
 $valor = $_GET["valor"];
+$_SESSION["anio"] = $anio;
 
 $i = 0;
 $sucursales = 0;
@@ -17,10 +18,10 @@ $total_sector = 0;
 $db = new database();
 $db->conectar();
 
-			
 if($valor == "anual")
 	{
-	$consulta = "SELECT * FROM consumoscel WHERE anio = '$anio';";
+	//$consulta = "SELECT * FROM consumoscel WHERE anio = '$anio';";
+	$consulta = "SELECT id, nombre, sector, SUM(total_fijos_variables) as Total FROM consumoscel WHERE anio = '$anio' GROUP BY nombre;";
 	$consulta_gral = "SELECT * FROM consumoscel WHERE anio = '$anio';";
 	$consulta_suc = "SELECT * FROM consumoscel WHERE sector = 'Sucursales' AND anio = '$anio';";
 	$consulta_cen = "SELECT * FROM consumoscel WHERE sector LIKE '%Central%' AND anio = '$anio';";
@@ -46,8 +47,8 @@ if($filtro == "Completo")
 		$consulta = "SELECT * FROM consumoscel WHERE mes = '$mes' AND anio = '$anio';";
 		}
 		else{
-			$consulta = "SELECT * FROM consumoscel WHERE anio = '$anio';";
-				
+			//$consulta = "SELECT * FROM consumoscel WHERE anio = '$anio';";
+			$consulta = "SELECT id, nombre, sector, SUM(total_fijos_variables) as Total FROM consumoscel WHERE anio = '$anio' GROUP BY nombre;";	
 			}
 	}
 	else if($filtro == "Usuarios")
@@ -57,7 +58,7 @@ if($filtro == "Completo")
 			$consulta = "SELECT * FROM consumoscel WHERE sector != '%Central' AND sector != 'Sucursales' AND mes = '$mes' AND anio = '$anio';";
 			}
 			else{
-				$consulta = "SELECT * FROM consumoscel WHERE sector != '%Central' AND sector != 'Sucursales' AND anio = '$anio';";
+				$consulta = "SELECT id, nombre, sector, SUM(total_fijos_variables) as Total FROM consumoscel WHERE sector != '%Central' AND sector != 'Sucursales' AND anio = '$anio' GROUP BY nombre;";
 				}
 		}
 		
@@ -241,68 +242,109 @@ if($valor=="anual")
 
 $resultado = mysqli_query($db->conexion, $consulta) 
 or die ("Fallo la consulta, no se pudo filtrar.");
-echo '
-	<table class="table table-condensed">
-		<thead class="text-center">
-			<tr>
-				<th>ID</th>
-				<th>Nombre</th>
-				<th>Centro de costo</th>
-				<th>Plan</th>
-				<th>Linea</th>
-				<th>Plan de voz</th>
-				<th>Servicio de voz</th>
-				<th>Pack SMS</th>
-				<th>Pack Datos</th>
-				<th>Garantia</th>
-				<th>Otros servicios</th>
-				<th>Total cargos fijos</th>
-				<th>Voz</th>
-				<th>Red Local LDN-LDI</th>
-				<th>Mensajes y contenidos</th>
-				<th>Datos</th>
-				<th>Roaming</th>
-				<th>Otros cargos</th>
-				<th>Total cargos variables</th>
-				<th>Cargos por &uacute;nica vez</th>
-				<th>Total cargos fijos y variables</th>
-			</tr>
-		</thead>
-
-		<tbody>
-		';
-		while($ver = mysqli_fetch_assoc($resultado))
-			{		
-			echo ' 
-				<tr>			
-					<td>'.$ver['id'].'</td>
-					<td>'.$ver['nombre'].'</td>
-					<td>'.$ver['sector'].'</td>
-					<td>'.$ver['plan'].'</td>
-					<td>'.$ver['linea'].'</td>
-					<td>$'.$ver['plan_voz'].'</td>
-					<td>$'.$ver['servicio_voz'].'</td>
-					<td>$'.$ver['pack_sms'].'</td>
-					<td>$'.$ver['pack_datos'].'</td>
-					<td>$'.$ver['garantia'].'</td>
-					<td>$'.$ver['otros_servicios'].'</td>
-					<td>$'.$ver['total_fijos'].'</td>
-					<td>$'.$ver['voz'].'</td>
-					<td>$'.$ver['red'].'</td>
-					<td>$'.$ver['mensajes'].'</td>
-					<td>$'.$ver['datos'].'</td>
-					<td>$'.$ver['roaming'].'</td>
-					<td>$'.$ver['otros_cargos'].'</td>
-					<td>$'.$ver['total_variables'].'</td>
-					<td>$'.$ver['unica_vez'].'</td>
-					<td>$'.$ver['total_fijos_variables'].'</td>
-				</tr>												
-				';
-			}
-			
+if($valor=="anual")
+	{
 	echo '
-		</tbody>
-	</table> 
+	<div class="col-md-12 text-left" id = "lista"> 
+		<table class="table table-condensed">
+			<thead class="text-center">
+				<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>Centro de costo</th>				
+					<th>Total cargos fijos y variables</th>
+					<th>
+						<select type = "text" class="form-control" onchange="ordenar(this.value)">
+							<option value=""> Ordenar </option>
+							<option value="id"> ID </option>
+							<option value="nombre"> Nombre </option>}
+							<option value="sector"> Sector </option>
+						</select>
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			';
+			while($ver = mysqli_fetch_assoc($resultado))
+				{		
+				echo ' 
+					<tr>			
+						<td>'.$ver['id'].'</td>
+						<td>'.$ver['nombre'].'</td>
+						<td>'.$ver['sector'].'</td>					
+						<td>$'.$ver['Total'].'</td>
+					</tr>												
+					';
+				}	
+	}//si la consulta no es anual:
+	else
+		{
+		echo '
+		<div class="col-md-6 text-left" id = "lista">
+			<table class="table table-condensed">
+				<thead class="text-center">
+					<tr>
+						<th>ID</th>
+						<th>Nombre</th>
+						<th>Centro de costo</th>
+						<th>Plan</th>
+						<th>Linea</th>
+						<th>Plan de voz</th>
+						<th>Servicio de voz</th>
+						<th>Pack SMS</th>
+						<th>Pack Datos</th>
+						<th>Garantia</th>
+						<th>Otros servicios</th>
+						<th>Total cargos fijos</th>
+						<th>Voz</th>
+						<th>Red Local LDN-LDI</th>
+						<th>Mensajes y contenidos</th>
+						<th>Datos</th>
+						<th>Roaming</th>
+						<th>Otros cargos</th>
+						<th>Total cargos variables</th>
+						<th>Cargos por &uacute;nica vez</th>
+						<th>Total cargos fijos y variables</th>
+					</tr>
+				</thead>
+
+				<tbody>
+				';
+				while($ver = mysqli_fetch_assoc($resultado))
+					{		
+					echo ' 
+						<tr>			
+							<td>'.$ver['id'].'</td>
+							<td>'.$ver['nombre'].'</td>
+							<td>'.$ver['sector'].'</td>
+							<td>'.$ver['plan'].'</td>
+							<td>'.$ver['linea'].'</td>
+							<td>$'.$ver['plan_voz'].'</td>
+							<td>$'.$ver['servicio_voz'].'</td>
+							<td>$'.$ver['pack_sms'].'</td>
+							<td>$'.$ver['pack_datos'].'</td>
+							<td>$'.$ver['garantia'].'</td>
+							<td>$'.$ver['otros_servicios'].'</td>
+							<td>$'.$ver['total_fijos'].'</td>
+							<td>$'.$ver['voz'].'</td>
+							<td>$'.$ver['red'].'</td>
+							<td>$'.$ver['mensajes'].'</td>
+							<td>$'.$ver['datos'].'</td>
+							<td>$'.$ver['roaming'].'</td>
+							<td>$'.$ver['otros_cargos'].'</td>
+							<td>$'.$ver['total_variables'].'</td>
+							<td>$'.$ver['unica_vez'].'</td>
+							<td>$'.$ver['total_fijos_variables'].'</td>
+						</tr>												
+						';
+					}
+		}
+		
+	echo '
+			</tbody>
+		</table> 
+	</div>
 	';
 	
 $db->close();

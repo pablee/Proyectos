@@ -20,7 +20,6 @@ $destino = $_GET["destino"];
 $sector = $_GET["sector"];
 $usuario = $_GET["usuario"];
 
-
 $db = new database();
 $db->conectar();
 
@@ -34,5 +33,7 @@ or die ("Fallo la consulta, no se puede actualizar el stock");
 $db->close();
 
 echo "Guardado";
+echo "<br>";
+echo "<button type='button' class='btn btn-link btn-xs' onclick='guardar(this.value)' value ='".$id."'> GUARDAR </button>";
 
 ?>

@@ -1,3 +1,7 @@
+<?php
+		session_start();
+		
+?>
 
 <html lang="en">
 
@@ -38,22 +42,43 @@
 		<div class="container centrado-porcentual">
 			<div class="row">
 				<div class="col-sm-4 col-md-offset-4">
-					<form>
+					<form method = "POST" action = "php/validaLogin.php">
 						<div>
-							<label for="email">Email</label>
-							<input type="text" class="form-control" id="email">
+							<label for="mail">Email</label>
+							<input type="text" class="form-control" id="mail" name="mail" placeholder="Mail" value="<?php 
+																													if(isset($_COOKIE['mail']))
+																														{
+																														echo $_COOKIE['mail'];
+																														}
+																													?>">
+							</input>
 							<br>
-							<label for="password">Contraseña:</label>
-							<input type="password" class="form-control" id="password">
+							<label for="pass">Contraseña:</label>
+							<input type="password" class="form-control" id="pass" name="pass" placeholder="Contraseña" value="<?php 
+																																if(isset($_COOKIE['pass']))
+																																	{
+																																	echo $_COOKIE['pass'];
+																																	}
+																																?>">
+							</input>
 							<br>
 						</div>
 						<div style="float: right">
-								<!--
-								<input type = "submit" class = "btn btn-success" value = "Aceptar"></input>
-								-->
-								<a href="home.php">
-									<input type = "button" class = "btn btn-success" value = "Aceptar">
-								</a>
+							<?php 
+								if(isset($_COOKIE['mail']))
+									{
+									echo '<input type = "checkbox" name = "recordar" value = "no"> No recordarme </input>';
+									}
+									else{
+										echo '<input type = "checkbox" name = "recordar" value = "si"> Recordarme </input>';
+										} 							
+							?>
+							<input type = "submit" class = "btn btn-success" value = "Ingresar"></input>
+							<!--
+							<a href="home.php">
+								<input type = "button" class = "btn btn-success" value = "Aceptar">
+							</a>
+							-->
 						</div>
 					</form>
 				</div>

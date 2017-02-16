@@ -1,9 +1,14 @@
 <?php
-		session_start();
-		date_default_timezone_set('America/Argentina/Buenos_Aires');
-		setlocale (LC_TIME,"spanish");
-		$fecha = date("d-m-Y H:i:s");
-		$fecha2 = strftime("%A %e de %B");	
+	session_start();
+	date_default_timezone_set('America/Argentina/Buenos_Aires');
+	setlocale (LC_TIME,"spanish");
+	$fecha = date("d-m-Y H:i:s");
+	$fecha2 = strftime("%A %e de %B");
+
+	if($_SESSION['login'] == FALSE)
+		{
+		header("location: index.php");	
+		}
 ?>
 
 <!DOCTYPE html>
@@ -22,17 +27,17 @@
 	<script type="text/javascript" src="jquery/jquery-ui.js"></script>
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="script/funciones.js"></script>
+	<script type="text/javascript" src="script/stock.js"></script>
 	<script type="text/javascript" src="script/documentacion.js"></script>
 	<script type="text/javascript" src="script/consumos.js"></script>
 	<script type="text/javascript" src="script/celular.js"></script>
 	<script type="text/javascript" src="script/calendario.js"></script>
 	<script type="text/javascript" src="script/pagina.js"></script>
-	
+
 </head>
 
 <body> 
-		
+
 	<div class="container-fluid">
 		<div class="row">							
 				<!--Logo-->
@@ -40,13 +45,14 @@
 					<p>GRIMOLDI</p>
 				</div>
 				<div class="col-sm-2 perfil">
-					<p class="bottomright">Usuario</p>
+					<p class="bottomright"> 
+						<?php echo $_SESSION['nombre'] ?>			
+					</p>
 				</div>	
 				<div class="col-sm-2 perfil">	
-					<p class="bottomright">Hoy es 	
-											<?php 
-											echo $fecha2
-											?> 
+					<p class="bottomright">
+						Hoy es	
+						<?php echo $fecha2 ?> 
 					</p>
 				</div>
 		
@@ -68,9 +74,9 @@
 							</li>
 							
 							<li class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<a class="dropdown-toggle" data-toggle="dropdown">
 									Administracion
-									<span class="caret"></span>
+									<!--span class="caret"></span-->
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="php/usuario/altaUsuario.php"> Computadoras </a></li>
@@ -80,28 +86,42 @@
 							</li>
 							
 							<li class="dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<a class="dropdown-toggle" data-toggle="dropdown">
 									Consumos
-									<span class="caret"></span>
+									<!--span class="caret"></span-->
 								</a>
 								<ul class="dropdown-menu">									
 									<li class="dropdown-submenu">
-										<a class="test" tabindex="-1" href="#"> Gastos <span class="caret"></span></a>
+										<a class="test" tabindex="-1" href="#"> 
+											Gastos 
+											<!--span class="caret"></span-->
+										</a>
 										<ul class="dropdown-menu">
 										  <li><a tabindex="-1" href="php/consumos/gastos/nuevoConsumo.php"> Nuevo </a></li>
 										  <li><a tabindex="-1" onclick="verConsumos('1')"> Ver </a></li>
 										  <li><a tabindex="-1" onclick="formBorrar('1')"> Borrar </a></li>
 										</ul>
 									</li>
-									<li><a onclick="consumosCel('1')"> Celulares </a></li>
-									<li><a href="#">Lineas</a></li>
+									<li class="dropdown-submenu">
+										<a class="test" tabindex="-1" href="#"> 
+											Celulares 
+											<!--span class="caret"></span-->
+										</a>
+										<ul class="dropdown-menu">
+											<li><a tabindex="-1" href=""> Nuevo </a></li>
+											<li><a onclick="consumosCel('1')"> Ver </a></li>
+											<li><a tabindex="-1" onclick=""> Borrar </a></li>
+										</ul>
+									</li>
+									
+									<li><a href="#">Telefonia</a></li>
 								</ul>
 							</li>
 							
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 									Documentacion
-									<span class="caret"></span>
+									<!--span class="caret"></span-->
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="php/usuario/altaUsuario.php">Usuarios</a></li>
@@ -113,7 +133,7 @@
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 									Stock
-									<span class="caret"></span>
+									<!--span class="caret"></span-->
 								</a>
 								<ul class="dropdown-menu">
 									<li><a onclick="verStock('Disponible')">Disponible</a></li>
@@ -126,7 +146,7 @@
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 									Celulares
-									<span class="caret"></span>
+									<!--span class="caret"></span-->
 								</a>
 								<ul class="dropdown-menu">
 									<li><a onclick="verLineas()">Ver lineas</a></li>
@@ -140,7 +160,12 @@
 							<li><a href="#">Contacto</a></li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout </a></li>
+							<li>
+								<a href="php/logout.php">
+									<span class="glyphicon glyphicon-log-in"></span> 
+									Logout 
+								</a>
+							</li>
 						</ul>
 					</div>
 				</nav>
@@ -164,7 +189,7 @@
 					
 			<!--Contenido-->
 			<div class="col-sm-12 text-left" id = "contenido"> 
-
+				
 			</div>
 			
 			<div class="col-sm-0"> 

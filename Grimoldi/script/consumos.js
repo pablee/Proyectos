@@ -181,4 +181,39 @@
 										
 								xhttp.open("GET", "php/consumos/celular/filtrar.php?filtro="+filtro+"&mes="+mes+"&anio="+anio+"&valor="+valor, "true");								
 								xhttp.send();
-								}				
+								}
+
+			//ordenar A->Z id, nombre, sector 
+			function ordenar(parametro)
+								{															
+								xhttp = new XMLHttpRequest();
+								xhttp.onreadystatechange = function()	
+										{
+										if (this.readyState == 4 && this.status == 200)
+												{
+												document.getElementById("lista").innerHTML = this.responseText;
+			 									}
+										};												
+								xhttp.open("GET", "php/consumos/celular/ordenar.php?parametro="+parametro, "true");								
+								xhttp.send();
+								}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
