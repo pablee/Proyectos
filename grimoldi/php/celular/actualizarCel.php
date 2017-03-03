@@ -2,7 +2,6 @@
 //graba en la tabla celulares las modificaciones realizadas en una linea existente, recibe los datos de modificarCel.php
 include "../../clases/database.php";
 
-
 $nombre = $_GET["nombre"];
 $linea = $_GET["linea"];
 $sector = $_GET["sector"];
@@ -13,7 +12,6 @@ $clave = $_GET["clave"];
 $plan = $_GET["plan"];
 $servicio_adicional = $_GET["servicio_adicional"];
 $datos = $_GET["datos"];
-$minutos_libres = $_GET["minutos_libres"];
 $detalles = $_GET["detalles"];
 $observaciones = $_GET["observaciones"];
 
@@ -73,13 +71,13 @@ $db->conectar();
 		$consulta = "UPDATE celulares SET datos = '$datos' WHERE linea = '$linea';";
 		$query = mysqli_query($db->conexion, $consulta)	or die ("Fallo la consulta, no se pudo actualizar el celular");
 		}	
-
+/*
 	if($minutos_libres!="")
 		{
 		$consulta = "UPDATE celulares SET minutos_libres = '$minutos_libres' WHERE linea = '$linea';";
 		$query = mysqli_query($db->conexion, $consulta)	or die ("Fallo la consulta, no se pudo actualizar el celular");
 		}
-
+*/
 	if($detalles!="")
 		{
 		$consulta = "UPDATE celulares SET detalles = '$detalles' WHERE linea = '$linea';";

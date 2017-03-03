@@ -1,0 +1,25 @@
+CREATE TABLE celulares 
+  id smallint,
+  nombre varchar31 ,
+  linea int,
+  sector varchar21 ,
+  modelo varchar21 ,
+  propietario tinyint,
+  mail varchar31 ,
+  clave varchar21 ,
+  plan varchar31 ,
+  servicio_adicional varchar21 ,
+  datos varchar11 ,
+  detalles varchar21 ,
+  observaciones varchar21 ,
+PRIMARY KEY linea;	
+
+LOAD DATA INFILE 'grimoldi/celulares.csv' INTO TABLE celulares
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+LOAD DATA INFILE 'grimoldi/2016/mar2016.csv' INTO TABLE consumoscel
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n';
+
+select * from celulares GROUP BY linea having count* > '1' 

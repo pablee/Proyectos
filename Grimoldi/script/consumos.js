@@ -1,4 +1,4 @@
-//carga el formulario para un nuevo gasto
+			//carga el formulario para un nuevo gasto
 			function nuevoConsumo()
 								{
 								xhttp = new XMLHttpRequest();
@@ -10,7 +10,7 @@
 			 									}
 										};
 					
-								xhttp.open("GET", "php/consumos/nuevoConsumo.php", "true");
+								xhttp.open("GET", "php/consumos/celular/nuevoMes.php", "true");
 								xhttp.send();
 								}		
 								
@@ -175,7 +175,7 @@
 										{
 										if (this.readyState == 4 && this.status == 200)
 												{
-												document.getElementById("contenido").innerHTML = this.responseText;
+												document.getElementById("listado").innerHTML = this.responseText;
 			 									}
 										};		
 										
@@ -185,7 +185,7 @@
 
 			//ordenar A->Z id, nombre, sector 
 			function ordenar(parametro)
-								{															
+								{	
 								xhttp = new XMLHttpRequest();
 								xhttp.onreadystatechange = function()	
 										{

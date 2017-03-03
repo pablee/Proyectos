@@ -33,7 +33,7 @@
 	<script type="text/javascript" src="script/celular.js"></script>
 	<script type="text/javascript" src="script/calendario.js"></script>
 	<script type="text/javascript" src="script/pagina.js"></script>
-
+	<script type="text/javascript" src="script/impuestos.js"></script>
 </head>
 
 <body> 
@@ -108,7 +108,7 @@
 											<!--span class="caret"></span-->
 										</a>
 										<ul class="dropdown-menu">
-											<li><a tabindex="-1" href=""> Nuevo </a></li>
+											<li><a onclick="nuevoConsumo()"> Nuevo </a></li>
 											<li><a onclick="consumosCel('1')"> Ver </a></li>
 											<li><a tabindex="-1" onclick=""> Borrar </a></li>
 										</ul>
@@ -153,6 +153,40 @@
 									<li><a onclick="nuevaLinea()">Nueva linea</a></li>
 									<li><a onclick="modificarLinea()">Modificar linea</a></li>
 									<li><a onclick="borrarLinea()">Borrar linea</a></li>
+								</ul>
+							</li>
+							
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown">
+									Impuestos									
+								</a>
+								<ul class="dropdown-menu">									
+									<li class="dropdown-submenu">
+										<a class="test" tabindex="-1" href="#"> 
+											Puntos de venta 											
+										</a>
+										<ul class="dropdown-menu">
+											<li class="dropdown-submenu">
+												<a class="test" tabindex="-1" href="#"> Ver </a>
+												<ul class="dropdown-menu">
+													<li><a tabindex="-1" onclick="puntoVenta('local')"> Local </a></li>
+													<li><a tabindex="-1" onclick="puntoVenta('pv')"> Punto de Venta </a></li>
+												</ul>
+											</li>											
+											<li class="dropdown-submenu">
+												<a class="test" tabindex="-1" href="#"> Nuevo </a>
+												<ul class="dropdown-menu">
+													<li><a tabindex="-1" onclick="puntoVenta('agregarLocal')"> Local </a></li>
+													<li><a tabindex="-1" onclick="puntoVenta('agregarPV')"> Punto de Venta </a></li>
+												</ul>
+											</li>
+											
+											
+											
+											
+											<li><a tabindex="-1" onclick="puntoVenta('modificar')"> Modificar </a></li>
+										</ul>
+									</li>																										
 								</ul>
 							</li>
 							

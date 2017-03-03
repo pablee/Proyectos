@@ -4,7 +4,7 @@ include "../../clases/database.php";
 $db = new database();
 $db->conectar();
 
-				$query = mysqli_query($db->conexion, "SELECT * FROM celulares;")
+				$query = mysqli_query($db->conexion, "SELECT * FROM celulares ORDER BY id DESC;")
 				or die ("Fallo la consulta, no se pueden mostrar la planilla celulares");
 			
 				echo '

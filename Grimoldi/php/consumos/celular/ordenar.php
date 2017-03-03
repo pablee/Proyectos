@@ -2,12 +2,30 @@
 session_start();
 include "../../../clases/database.php";
 $parametro = $_GET["parametro"];
+$orden = "ASC";
 $anio = $_SESSION["anio"];
 
 $db = new database();
 $db->conectar();
 
-$ordenar = "SELECT id, nombre, sector, SUM(total_fijos_variables) as Total FROM consumoscel WHERE anio = '$anio' GROUP BY nombre ORDER BY $parametro ASC;";
+if($parametro == "consumo_asc")
+	{
+	$parametro = "Total";
+	$orden = "ASC";
+	}else if($parametro == "consumo_desc")
+			{
+			$parametro = "Total";
+			$orden = "DESC";
+			}
+
+$ordenar = "SELECT CON.linea, CEL.nombre, CEL.sector, SUM(CON.total_fijos_variables) as Total 
+			FROM celulares as CEL
+			RIGHT JOIN consumoscel as CON 
+			ON CEL.linea = CON.linea
+			WHERE CON.anio = '$anio' 
+			GROUP BY CEL.nombre 
+			ORDER BY $parametro $orden;";
+			
 $resultado = mysqli_query($db->conexion, $ordenar) 
 or die ("Fallo la consulta, no se pudo filtrar.");
 
@@ -19,15 +37,7 @@ or die ("Fallo la consulta, no se pudo filtrar.");
 				<th>ID</th>
 				<th>Nombre</th>
 				<th>Centro de costo</th>				
-				<th>Total cargos fijos y variables</th>
-				<th>
-					<select type = "text" class="form-control" onchange="ordenar(this.value)">
-							<option value="">  </option>
-							<option value="id"> ID </option>
-							<option value="nombre"> Nombre </option>}
-							<option value="sector"> Sector </option>
-					</select>
-				</th>	
+				<th>Total cargos fijos y variables</th>				
 			</tr>
 		</thead>
 
@@ -37,7 +47,7 @@ or die ("Fallo la consulta, no se pudo filtrar.");
 			{		
 			echo ' 
 				<tr>			
-					<td>'.$ver['id'].'</td>
+					<td>'.$ver['linea'].'</td>
 					<td>'.$ver['nombre'].'</td>
 					<td>'.$ver['sector'].'</td>					
 					<td>$'.$ver['Total'].'</td>
