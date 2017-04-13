@@ -69,7 +69,7 @@ or die ("Fallo la consulta, no se pueden mostrar los consumos");
 echo '
 	<br>
 	<div class="row">
-		<div class="col-sm-2 col-md-2 text-left"> 
+		<div class="col-sm-3 col-md-3 text-left"> 
 			<select type = "text" class="form-control" id = "filtro">
 				<option value=""> Sector </option>		
 				<option value="Auditoria"> Auditoria </option>		
@@ -121,41 +121,45 @@ echo '
 			</select>		
 		</div>
 		
-		<div class="col-sm-1 col-md-1 text-left"> 			
+		<div class="col-sm-2 col-md-2 text-left"> 			
 			<button class="btn btn-default" onclick="filtrar(0)"> Filtrar </button>
 			<button class="btn btn-default" onclick="filtrar(this.value)" value="anual"> Anual </button>
 			<button class="btn btn-default" onclick="consumosCel(1)"> Ver todo </button>
 		</div>
 		
-		<div class="row table-responsive">	
-			<div class="col-sm-1 col-md-5"> 	
-				<table class="table table-condensed">
-					<thead class="text-center">
-						<tr>
-							<th>Totales</th>
-							<th>'.$mes.'-'.$anio.'</th>	
-						</tr>
-					</thead>
+			<div class="col-sm-5 col-md-5 table-responsive"> 
+				<!--div class="row table-responsive"-->						
+					<table class="table table-condensed">
+						<thead class="text-center">
+							<tr>
+								<th>Totales</th>
+								<th>'.$mes.'-'.$anio.'</th>	
+							</tr>
+						</thead>
 
-					<tbody>
-						<tr>			
-							<td><b> Sucursales </b></td>
-							<td> $'.$_SESSION['sucursales'].' </td>
-							<td><b> Central </b></td>
-							<td> $'.$_SESSION['central'].' </td>
-							<td><b> Usuarios </b></td>
-							<td> $'.$_SESSION['usuarios'].' </td>
-							<td><b> General </b></td>
-							<td> $'.$_SESSION['general'].' </td>		
-						</tr>							
-					</tbody>
-				</table> 	
+						<tbody>
+							<tr>			
+								<td><b> Sucursales </b></td>
+								<td> $'.$_SESSION['sucursales'].' </td>
+								<td><b> Central </b></td>
+								<td> $'.$_SESSION['central'].' </td>
+								<td><b> Usuarios </b></td>
+								<td> $'.$_SESSION['usuarios'].' </td>
+								<td><b> General </b></td>
+								<td> $'.$_SESSION['general'].' </td>		
+							</tr>							
+						</tbody>
+					</table> 	
+				<!--/div-->
 			</div>
-		</div>
 		
-		<div class="col-sm-1 col-md-2"> 	
-			<button class="btn btn-info" onclick=""> Generar PDF </button>						
-			<button class="btn btn-info" onclick=""> Estadisticas </button>							
+		<div class="col-sm-2 col-md-2 btn-group"> 							
+			
+			<button type="button" class="btn btn-danger" value="anual" onclick="verGraficos(this.value)">Anual</button>
+			<button type="button" class="btn btn-danger" value="mensual" onclick="verGraficos(this.value)">Mensual</button>
+			<a href="php/consumos/graficosPDF.php" class="btn btn-info btn-md">
+				Exportar
+			</a>	
 		</div>				
 	</div>
 	';

@@ -199,6 +199,6 @@ $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 $headers .= "From: administrador@example.com";
 mail($to,$subject,$message,$headers);
 
-echo "<h1>Su solicitud fue procesada con exito</h1>"
+echo "<h1>Su solicitud fue procesada con exito</h1>";
 
 ?>

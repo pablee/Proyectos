@@ -9,13 +9,20 @@
 		{
 		header("location: index.php");	
 		}
+		
+	$verSemana=false;
+	if(isset($_GET["verSemana"]))
+		{
+		$verSemana=$_GET["verSemana"];
+		}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Intranet 2.0</title>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<!--meta http-equiv="Content-type" content="text/html; charset=utf-8"-->
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -34,10 +41,38 @@
 	<script type="text/javascript" src="script/calendario.js"></script>
 	<script type="text/javascript" src="script/pagina.js"></script>
 	<script type="text/javascript" src="script/impuestos.js"></script>
+	<script type="text/javascript" src="script/graficos.js"></script>
+	<script type="text/javascript" src="script/auditoria.js"></script>
+	<script>/*
+	function nuevaSemana()
+			{	
+			xhttp= new XMLHttpRequest();	
+			xhttp.onreadystatechange = function()	
+					{
+					if (this.readyState == 4 && this.status == 200)
+							{
+							document.getElementById("semana").innerHTML=this.responseText;
+							}
+					};
+							
+			xhttp.open("GET", "php/auditoria/cronograma/semana.php", true);		
+			xhttp.send();	
+			}*/
+	</script>		
 </head>
 
-<body> 
+<?php
 
+if($verSemana==true)
+	{
+	$body="verSemana('false')";
+	echo '<body onload="'.$body.'">';
+	}
+	else{
+		echo '<body>'; 
+		}
+
+?>
 	<div class="container-fluid">
 		<div class="row">							
 				<!--Logo-->
@@ -155,6 +190,16 @@
 									<li><a onclick="borrarLinea()">Borrar linea</a></li>
 								</ul>
 							</li>
+
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown">
+									Auditoria									
+								</a>
+								<ul class="dropdown-menu">									
+									<li><a class="test" tabindex="-1" onclick="verCronograma()"> Cronograma </a></li>									
+									<li><a class="test" tabindex="-1" onclick="verSemana('false')"> Ver semana </a></li>			
+								</ul>
+							</li>
 							
 							<li class="dropdown">
 								<a class="dropdown-toggle" data-toggle="dropdown">
@@ -179,19 +224,24 @@
 													<li><a tabindex="-1" onclick="puntoVenta('agregarLocal')"> Local </a></li>
 													<li><a tabindex="-1" onclick="puntoVenta('agregarPV')"> Punto de Venta </a></li>
 												</ul>
-											</li>
-											
-											
-											
-											
-											<li><a tabindex="-1" onclick="puntoVenta('modificar')"> Modificar </a></li>
+											</li>																		
 										</ul>
 									</li>																										
 								</ul>
 							</li>
 							
-							<li><a href="#">Proyectos</a></li>
-							<li><a href="#">Contacto</a></li>
+							<li><a href=""> Proyectos </a></li>
+							
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="">
+									Estadisticas
+									<!--span class="caret"></span-->
+								</a>
+								<ul class="dropdown-menu">									
+									<li><a onclick="cargarTickets()"> Cargar Tickets </a></li>
+									<li><a onclick="estadisticas()"> Graficos </a></li>									
+								</ul>
+							</li>
 						</ul>
 						<ul class="nav navbar-nav navbar-right">
 							<li>
@@ -209,16 +259,7 @@
 		<div class="row text-center">
 					
 			<div class="col-sm-0">
-						<!--
-						<p><input type = "submit" class="btn btn-default btn-block" value = "Pcs Grimoldi"></input></p>
-						<p><input type = "submit" class="btn btn-default btn-block" value = "Equipos e insumos"></input></p>
-						<p><input type = "submit" class="btn btn-default btn-block" value = "Celulares"></input></p>
-						<p><input type = "submit" class="btn btn-default btn-block" value = "Gastos"></input></p>
-						<p><input type = "submit" class="btn btn-default btn-block" value = "Internos"></input></p>
-						<p><input type = "submit" class="btn btn-info btn-block" value = "Pcs Grimoldi"></input></p>
-						<p><input type = "submit" class="btn btn-info btn-block" value = "Equipos e insumos"></input></p>
-						<p><input type = "submit" class="btn btn-info btn-block" value = "Reportes"></input></p>
-						-->
+					
 			</div>
 					
 			<!--Contenido-->

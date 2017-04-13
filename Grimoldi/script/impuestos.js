@@ -1,6 +1,6 @@
 function puntoVenta(valor)
 						{
-						//alert("Hello! I am an alert box!!");															
+						//alert("Hello! I am an alert box!!");						
 						var xhttp = new XMLHttpRequest();
 						
 						xhttp.onreadystatechange = function() 
@@ -137,10 +137,18 @@ function borrarPV(id)
 
 function editarLocal(id)
 						{
-						var prueba = document.getElementById("prueba").childNodes;
+						//var prueba = document.getElementById("prueba").childNodes;
+						var xhttp = new XMLHttpRequest();												
+						xhttp.onreadystatechange = function() 
+							{
+							if (this.readyState == 4 && this.status == 200) 
+								{
+								document.getElementById(id).innerHTML = this.responseText;
+								}
+							};
 						
-						
-						alert();
+						xhttp.open("GET", "php/impuestos/puntos_venta/editar.php?id="+id, true);							
+						xhttp.send();												
 						}							
 
 						

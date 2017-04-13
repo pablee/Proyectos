@@ -146,12 +146,12 @@ echo'
 						<td> <input type = "text" id="domicilio"></input> </td>
 						<td> <input type = "text" id="ciudad"></input> </td>
 						<td> <input type = "text" id="provincia"></input> </td>										
-						<td> <button type = "button" class = "btn btn-info" value = "ingresarLocal" onclick = "ingresarLocal(this.value)"> Ingresar </button> </td>	
+						<td> <button type = "button" class = "btn btn-info" value="ingresarLocal" onclick="ingresarLocal(this.value)"> Ingresar </button> </td>	
 					</tr>
 					';
 				}
 				
-		$consulta ="SELECT * 
+		$consulta ="SELECT LOC.id, LOC.nombre, PV.controlador, PV.manual, LOC.domicilio, LOC.ciudad, LOC.provincia
 					FROM locales as LOC
 					JOIN punto_venta as PV
 					ON LOC.id = PV.id_local
@@ -164,10 +164,9 @@ echo'
 		while($ver = mysqli_fetch_assoc($resultado))
 			{
 			echo'	
-				<div id="prueba">
-					<input type=text value="hola"></input>
+				<div id="'.$ver["id"].'">					
 					<tr>							
-						<td> '.$ver["id_local"].' </td>						
+						<td> '.$ver["id"].' </td>						
 						<td> '.$ver["nombre"].' </td>
 						<td> '.$ver["controlador"].' </td>
 						<td> '.$ver["manual"].' </td>
@@ -175,14 +174,18 @@ echo'
 						<td> '.$ver["ciudad"].' </td>							
 						<td> '.$ver["provincia"].' </td>		
 						<td> 
-							<button type="button" class="btn btn-danger btn-sm" value ="'.$ver["id"].'" onclick = "borrarLocal(this.value)">
+							<button type="button" class="btn btn-danger btn-sm" value ="'.$ver["id"].'" onclick="borrarLocal(this.value)">
 								<span class="glyphicon glyphicon-remove"></span> 
 							</button>
-							<button type="button" class="btn btn-info btn-sm" value ="'.$ver["id"].'" onclick = "editarLocal(this.value)">
+							<button type="button" class="btn btn-info btn-sm" value ="'.$ver["id"].'" onclick="editarLocal(this.value)">
 								<span class="glyphicon glyphicon-pencil"></span>  
+							</button>
+							<button type="button" class="btn btn-info btn-sm" onclick=puntoVenta("agregarLocal")>
+								<span class="glyphicon glyphicon-plus"></span>  
 							</button>	
 						</td>
 					</tr>
+					
 				</div>
 				';
 			}				
@@ -207,7 +210,7 @@ echo'
 						<td> <input type = "text" id="id_local"></input> </td>											
 						<td> <input type = "text" id="controlador"></input> </td>
 						<td> <input type = "text" id="manual"></input> </td>									
-						<td> <button type = "button" class = "btn btn-info" value = "ingresarPV" onclick = "ingresarPV(this.value)"> Ingresar </button> </td>	
+						<td> <button type = "button" class = "btn btn-info" value = "ingresarPV" onclick="ingresarPV(this.value)"> Ingresar </button> </td>	
 					</tr>
 					';
 				}
@@ -221,21 +224,26 @@ echo'
 			or die("No se pueden mostrar los puntos de venta.");	
 			while($ver = mysqli_fetch_assoc($resultado))
 				{
-				echo'	
+				echo'
+					
 						<tr>									
 							<td> '.$ver["id_local"].' </td>													
 							<td> '.$ver["controlador"].' </td>
 							<td> '.$ver["manual"].' </td>
 								
 							<td> 
-								<button type="button" class="btn btn-danger btn-sm" value ="'.$ver["id"].'" onclick = "borrarPV(this.value)">
+								<button type="button" class="btn btn-danger btn-sm" value ="'.$ver["id"].'" onclick="borrarPV(this.value)">
 									<span class="glyphicon glyphicon-remove"></span> 
 								</button>
 								<button type="button" class="btn btn-info btn-sm">
 									<span class="glyphicon glyphicon-pencil"></span>  
-							</button>			
+								</button>	
+								<button type="button" class="btn btn-info btn-sm" onclick=puntoVenta("agregarPV")>
+									<span class="glyphicon glyphicon-plus"></span>  
+								</button>		
 							</td>
 						</tr>
+						
 					';
 				}		
 			}		
@@ -244,6 +252,14 @@ echo '
 				</tbody>
 			</table> 
 		</div>
+		
+		<div class="col-sm-1 col-md-2">
+			<div class="btn-group-vertical">
+				<button type="button" class="btn btn-primary" onclick="puntoVenta("local")> Locales </button>
+				<button type="button" class="btn btn-primary" onclick="puntoVenta("pv")> PV </button>				
+			</div>
+		</div>
+		
 	</div>				
 	';
 
