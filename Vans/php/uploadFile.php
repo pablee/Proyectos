@@ -2,7 +2,7 @@
 session_start();
 include "../clases/database.php";
 
-//$target_path = "../../../archivos/";
+//antes de subir el archivo se debe borrar el \r
 $target_path = "../../../../mysql/data/vans/";
 $target_path = $target_path . basename($_FILES['archivo']['name']); 
 

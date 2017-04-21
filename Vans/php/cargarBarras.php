@@ -3,40 +3,35 @@ session_start();
 include "../clases/database.php";
 include "../clases/articulos.php";
 
-$barra=$_GET["barra"];
-/*
-if($_SESSION["i"]=="0")
+$guardar="'guardar'";
+$consultar="'consultar'";
+if(isset($_GET["barra"]))
 	{
-	$articulo[] = new articulo();
+	$barra=$_GET["barra"];	
+	}
+	else{
+		$barra="";
+		}
+//el id lo recibe de la funcion sacarArticulo y pasa la posicion del articulo a borrar del array
+if(isset($_GET["id"]))
+	{
+	$id=$_GET["id"];
+	$_SESSION["barra"][$id]="";	
 	}
 	
-$articulo[0]->linea="vans";
-$articulo[0]->modelo="2";
-$articulo[0]->codigo="asdasdsa";
-$articulo[0]->medida="11.0";
-$articulo[0]->barra=$barra;
-$articulo[0]->cantidad="1";
-
-$articulo[0]->ver();
-
-$articulo[1]->linea="vans";
-$articulo[1]->modelo="2222";
-$articulo[1]->codigo="fffffff";
-$articulo[1]->medida="12.0";
-$articulo[1]->barra=$barra;
-$articulo[1]->cantidad="01";
-
-$articulo[1]->ver();
-*/
-if($barra!="")
+$db = new database();
+$db->conectar();		
+	
+if($barra!=""&&$barra!="consultar"&&$barra!="guardar")
 	{
 	$_SESSION["barra"][$_SESSION["i"]]=$barra;
-	$_SESSION["i"]+="1";	
+	$_SESSION["i"]+="1";			
 	}
 
+//Tabla articulos	
 echo'	
 	<div class="table-responsive">          
-	  <table class="table">
+	  <table id="articulos" class="table">
 		<thead>
 		  <tr>
 			<th> Linea </th>
@@ -44,26 +39,46 @@ echo'
 			<th> Codigo </th>
 			<th> Medida </th>
 			<th> Barra </th>
-		  </tr>
+	';		
+	
+	if($barra=="guardar")
+		{
+		echo'<th> Cantidad </th>';
+		}
+	
+echo'	  </tr>
 		</thead>
 		
 		<tbody>
 	';
-
-if($barra=="guardar")
+					
+//Genera los listados 	
+if($barra=="consultar" || $barra=="guardar")
 	{
-	$db = new database();
-	$db->conectar();
-
-	foreach($_SESSION["barra"] as $barra)
+	if($barra=="guardar")
 		{
-		$consulta ="SELECT *
-					FROM productos
-					WHERE barra = $barra;";
-			
+		//Guarda los articulos en la tabla listado	
+		$consulta ="TRUNCATE TABLE listado;";	
 		$resultado = mysqli_query($db->conexion, $consulta) 
-		or die ("No se pudo buscar el codigo de barra en la base.");
-
+		or die ("No se pudo mostrar el listado");
+	
+		foreach($_SESSION["barra"] as $codigo_barra)
+			{
+			if($codigo_barra!="")
+				{		
+				$consulta ="INSERT INTO listado (barra) VALUES ($codigo_barra);";				
+				$resultado = mysqli_query($db->conexion, $consulta) 
+				or die ("No se pudo guardar el codigo de barra en la base.");
+				}
+			}
+		
+		//Genera las filas de la tabla articulos
+		$consulta ="SELECT P.marca, P.linea, P.modelo, P.codigo, P.DescMedida, L.barra, COUNT(L.barra) as cantidad 
+					FROM listado L JOIN productos P ON L.barra = P.barra
+					GROUP BY L.barra;";			
+		$resultado = mysqli_query($db->conexion, $consulta) 
+		or die ("No se pudo mostrar el listado");
+		
 		while($producto = mysqli_fetch_assoc($resultado))
 			{
 			echo'	
@@ -72,26 +87,140 @@ if($barra=="guardar")
 					<td> '.$producto["modelo"].' </td>
 					<td> '.$producto["codigo"].' </td>
 					<td> '.$producto["DescMedida"].' </td>
-					<td> '.$producto["barra"].' </td>
+					<td> '.$producto["barra"].' </td>					
+					<td> '.$producto["cantidad"].' </td>	
 				  </tr>
 				';	
 			}
+		
+		//Articulos con codigo de barras inexistentes
+		$consulta ="SELECT L.barra, COUNT(*) as cantidad 
+					FROM listado L 
+					WHERE L.barra NOT IN (SELECT P.barra FROM productos P) GROUP BY L.barra;"; 
+		$resultado = mysqli_query($db->conexion, $consulta) 
+		or die ("No se pudo mostrar el listado");
+		while($producto = mysqli_fetch_assoc($resultado))
+			{
+			echo'	
+				<tr>
+					<td> No existe </td>
+					<td> No existe </td>
+					<td> No existe </td>
+					<td> No existe </td>
+					<td> '.$producto["barra"].' </td>				
+					<td> '.$producto["cantidad"].' </td>			
+				</tr>
+				';			
+			}
+			
+		$db->close();		
 		}
-	$db->close();	
+		else{
+			//Consulta informacion de articulos
+			$i=0;
+			foreach($_SESSION["barra"] as $codigo_barra)
+				{
+				if($codigo_barra!="")
+					{	
+					$consulta ="SELECT *
+								FROM productos
+								WHERE barra = $codigo_barra;";							
+					$resultado = mysqli_query($db->conexion, $consulta) 
+					or die ("No se encontro el codigo de barra en la base.");											
+					
+					while($producto = mysqli_fetch_assoc($resultado))
+						{
+						echo'	
+							<tr>
+								<td> '.$producto["linea"].' </td>
+								<td> '.$producto["modelo"].' </td>
+								<td> '.$producto["codigo"].' </td>
+								<td> '.$producto["DescMedida"].' </td>
+								<td> '.$producto["barra"].' </td>					
+								<td> 
+									<a onclick="sacarArticulo('.$i.'); restar()">
+										<span class="glyphicon glyphicon-remove"></span> 
+									</a>
+								</td>					
+							</tr>
+							';	
+							
+						}
+					
+					if(0 == mysqli_num_rows($resultado))
+						{
+						echo'	
+							<tr>
+								<td> No existe </td>
+								<td> No existe </td>
+								<td> No existe </td>
+								<td> No existe </td>
+								<td> '.$codigo_barra.' </td>					
+								<td> 
+									<a onclick="sacarArticulo('.$i.'); restar()">
+										<span class="glyphicon glyphicon-remove"></span> 
+									</a>
+								</td>					
+							</tr>
+							';			
+						}
+					}
+				$i++;		
+				}
+			//$db->close();	
+			}
 	}
-	else{	
-		foreach($_SESSION["barra"] as $barra)
+	else{
+		$i=0;
+		foreach($_SESSION["barra"] as $codigo_barra)
 			{
 			//echo $barra;
-			echo'	
-				  <tr>
-					<td>  </td>
-					<td>  </td>
-					<td>  </td>
-					<td>  </td>
-					<td> '.$barra.' </td>
-				  </tr>
-				';
+			if($codigo_barra!="")
+				{
+				$consulta ="SELECT *
+							FROM productos
+							WHERE barra = $codigo_barra;";							
+				$resultado = mysqli_query($db->conexion, $consulta) 
+				or die ("No se encontro el codigo de barra en la base.");											
+				
+				while($producto = mysqli_fetch_assoc($resultado))
+					{
+					echo'	
+						<tr>
+							<td> '.$producto["linea"].' </td>
+							<td> '.$producto["modelo"].' </td>
+							<td> '.$producto["codigo"].' </td>
+							<td> '.$producto["DescMedida"].' </td>
+							<td> '.$producto["barra"].' </td>					
+							<td> 
+								<a onclick="sacarArticulo('.$i.'); restar()">
+									<span class="glyphicon glyphicon-remove"></span> 
+								</a>
+							</td>					
+						</tr>
+						';	
+						
+					}
+				
+				if(0 == mysqli_num_rows($resultado))
+					{
+					echo'	
+						<tr>
+							<td> No existe </td>
+							<td> No existe </td>
+							<td> No existe </td>
+							<td> No existe </td>
+							<td> '.$codigo_barra.' </td>					
+							<td> 
+								<a onclick="sacarArticulo('.$i.'); restar()">
+									<span class="glyphicon glyphicon-remove"></span> 
+								</a>
+							</td>					
+						</tr>
+						';			
+					}
+				}	
+			$i++;	
 			}
 		}
 	
@@ -99,7 +228,9 @@ echo'
 		</tbody>
 	  </table>
 	  
-	  <button type="button" class="btn btn-info" onclick="ingresarBarras()"> Guardar </button>	
+	  <button type="button" class="btn btn-info" onclick="ingresarBarras('.$consultar.')"> Consultar </button>	
+	  <button type="button" class="btn btn-info" onclick="ingresarBarras('.$guardar.')"> Guardar </button>	
 	</div>
 	';
+
 ?>

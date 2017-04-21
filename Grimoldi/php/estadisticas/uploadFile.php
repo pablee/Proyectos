@@ -20,8 +20,12 @@ if(move_uploaded_file($_FILES['archivo']['tmp_name'], $target_path))
 $db = new database();
 $db->conectar();
 
-$consulta = "TRUNCATE tickets
-			LOAD DATA INFILE 'grimoldi/tickets/".$_FILES['archivo']['name']."'
+$consulta = "TRUNCATE TABLE tickets;";
+
+$resultado = mysqli_query($db->conexion, $consulta)
+or die ("No se pudo borrar la tabla tickets");
+
+$consulta = "LOAD DATA INFILE 'grimoldi/tickets/".$_FILES['archivo']['name']."'
 			INTO TABLE tickets
 			FIELDS TERMINATED BY ','
 			LINES TERMINATED BY '\n';";
@@ -29,7 +33,11 @@ $consulta = "TRUNCATE tickets
 $resultado = mysqli_query($db->conexion, $consulta)
 or die ("No se pudo cargar el archivo en la base");
 
+/*
 echo "<br>";
 echo "Archivo cargado";			
-	
+*/
+
+header("location: ../../home.php");
+
 ?>
