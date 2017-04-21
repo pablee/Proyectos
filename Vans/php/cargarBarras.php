@@ -174,15 +174,14 @@ if($barra=="consultar" || $barra=="guardar")
 		$i=0;
 		foreach($_SESSION["barra"] as $codigo_barra)
 			{
-			//echo $barra;
 			if($codigo_barra!="")
 				{
 				$consulta ="SELECT *
 							FROM productos
 							WHERE barra = $codigo_barra;";							
 				$resultado = mysqli_query($db->conexion, $consulta) 
-				or die ("No se encontro el codigo de barra en la base.");											
-				
+				or die ("No se encontro el codigo de barra en la base.");																							
+					
 				while($producto = mysqli_fetch_assoc($resultado))
 					{
 					echo'	
@@ -219,8 +218,9 @@ if($barra=="consultar" || $barra=="guardar")
 						</tr>
 						';			
 					}
+				$i++;	
 				}	
-			$i++;	
+					
 			}
 		}
 	
@@ -232,5 +232,7 @@ echo'
 	  <button type="button" class="btn btn-info" onclick="ingresarBarras('.$guardar.')"> Guardar </button>	
 	</div>
 	';
-
+	
+	
+	
 ?>

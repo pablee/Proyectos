@@ -39,22 +39,11 @@
 		color: white;
 		}
 				
-	</style>
-	
-	<script>
-	//Creo una función que imprimira en la hoja el valor del porcentanje asi como el relleno de la barra de progreso
-	/*
-	function callprogress(vValor)
-		{
-		document.getElementById("obtenerProgreso").innerHTML = vValor;
-		document.getElementById("progresoBarra").innerHTML = '<div class="llenarBarra" style="width: '+vValor+'%;"></div>';
-		}						
-	*/	
-	</script>
+	</style>	
 
 </head>
 
-<body>
+<body onload="crearBase()">
 	<div class="container">
 	<!--div class="container-fluid"-->
 		<div class="row">
@@ -67,14 +56,14 @@
 			<div class="col-sm-3 col-md-6">	
 				<div class="form-group">
 					<label for="barra"> Codigo de barras </label>
-					<input id="barra" type="text" class="form-control" placeholder="Ingrese el codigo de barras" onkeypress="ingresarBarras(event); callprogress('100')"></input>
+					<input id="barra" type="text" class="form-control" placeholder="Ingrese el codigo de barras" onkeypress="ingresarBarras(event)"></input>
 					<!--Barra de espera-->
 					<div id="progresoBarra"> 
 						
 					</div>
-					<div>
+					<!--div>
 						<span id="obtenerProgreso"></span>&nbsp;% completado
-					</div>
+					</div-->
 				</div>
 				<button type="button" class="btn btn-info" onclick="ingresarBarras('0'); callprogress('100')"> Ingresar </button>	
 				<a href="home.php" class="btn btn-info"> Nuevo </a>	
@@ -108,20 +97,20 @@
 		</div>	
 	</div>	
 	
-	<!-- Trigger the modal with a button -->
+	<!-- Trigger the modal with a button 
 	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#consulta" data-backdrop="static">Open Modal</button>
-	
-	<!-- Modal -->
+	-->
+	<!-- Modal 
 	<div class="modal fade" id="consulta" role="dialog">
 		<div class="modal-dialog">		
-			<!-- Modal content-->
+			<!-- Modal content
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Buscando articulos...</h4>
 				</div>
 				<div class="modal-body">
-					<!--Barra de espera-->
+					<!--Barra de espera
 					<div id="progresoBarra"> 
 						
 					</div>
@@ -135,8 +124,9 @@
 			</div>	
 		</div>
 	</div>
-
+	-->
 </body>
 
 
 </html>
+

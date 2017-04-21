@@ -1,3 +1,16 @@
+function crearBase()
+	{		
+	//alert("creando base");
+	xhttp = new XMLHttpRequest();
+	if (this.readyState == 4 && this.status == 200)			
+			{
+			document.getElementById("lista").innerHTML=this.responseText;							
+			document.getElementById("barra").value="";					
+			}
+	xhttp.open("GET", "php/crearBase.php", true);		
+	xhttp.send();	
+	}
+
 var articulos = 0;
 function ingresarBarras(event)
 	{	
@@ -27,7 +40,7 @@ function ingresarBarras(event)
 			if (this.readyState == 4 && this.status == 200)			
 				{
 				document.getElementById("lista").innerHTML=this.responseText;							
-				document.getElementById("barra").value="";				
+				document.getElementById("barra").value="";					
 				}
 			};
 		xhttp.open("GET", "php/cargarBarras.php?barra="+barra, true);		
@@ -36,21 +49,27 @@ function ingresarBarras(event)
 	}
 
 //Barra de espera	
-function callprogress(vValor)
+function callprogress()
 	{
 	xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function()
 		{
 		if (this.readyState == 4 && this.status == 200)			
-			{
-			document.getElementById("obtenerProgreso").innerHTML = vValor;
-			document.getElementById("progresoBarra").innerHTML = '<div class="llenarBarra" style="width: '+vValor+'%;"></div>';			
-			}
-		};
+			{				
+			document.getElementById("progresoBarra").innerHTML = this.response;					
+			}	
+		}
 	xhttp.open("GET", "php/progresoBarra.php", true);		
 	xhttp.send();			
-	}
-	
+	}		
+/*	
+function callprogress(vValor)
+	{
+	document.getElementById("obtenerProgreso").innerHTML = vValor;
+	document.getElementById("progresoBarra").innerHTML = '<div class="llenarBarra" style="width: '+vValor+'%;"></div>';						
+	}		
+*/	
+
 //Resta del contador los articulos borrados
 function restar()
 	{
@@ -76,26 +95,7 @@ function sacarArticulo(id)
 	xhttp.send();							
 	}
 
-function move() 
-	{
-	var elem = document.getElementById("myBar");   
-	var width = 10;
-	var id = setInterval(frame, 10);
-	
-	function frame() 
-		{
-		if (width >= 100) 
-			{
-			clearInterval(id);
-			} 
-			else{
-				width++; 
-				elem.style.width = width + '%'; 
-				elem.innerHTML = width * 1  + '%';				
-				}
-		}
-	}	
-	
+
 /*
 Excel export script works on IE7+, Firefox and Chrome.	
 Just create a blank iframe:
